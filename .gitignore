@@ -1,0 +1,16 @@
+# Build outputs
+*.o
+*.obj
+*.exe
+*.out
+demo
+test
+student_test
+
+# IDE and editor settings
+.idea/
+.vscode/
+
+# Operating-system files
+.DS_Store
+Thumbs.db
