@@ -15,7 +15,7 @@ demo: main.o
 grade: test tidy
 
 test: TestRunner.o student_test
-	$(CXX) $(CXXFLAGS) $^ -o test
+	$(CXX) $(CXXFLAGS) TestRunner.o -o test
 	./test
 
 student_test: StudentTestRunner.o
