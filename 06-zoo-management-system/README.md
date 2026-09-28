@@ -1,3 +1,20 @@
 # Zoo Management System
 
-Inheritance and runtime polymorphism through an extensible animal-management model.
+An inheritance and polymorphism exercise with a base `Animal` type, `Bird`, `Mammal` and `Reptile` specializations, and a `Zoo` collection. The demo shows the types working together.
+
+## What this module demonstrates
+
+Animal hierarchy and zoo collection; virtual dispatch and object-oriented design.
+
+## Build and inspect
+
+From this directory, use a C++23-capable compiler and Make on Linux or WSL:
+
+```bash
+make demo
+make test
+```
+
+`make demo` builds and runs the example; `make test` runs the included doctest-based checks. Start with `main.cpp` for usage, the matching headers for the public API, and `test.cpp` / `StudentTest.cpp` for examples and expected behavior. The included `doctest.h` is third-party test support.
+
+This is a self-contained learning module within the [C++ portfolio](../README.md), not a deployed service.
