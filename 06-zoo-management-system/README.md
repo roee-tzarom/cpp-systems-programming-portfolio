@@ -1,14 +1,32 @@
 # Zoo Management System
 
-An inheritance and polymorphism exercise with a base `Animal` type, `Bird`, `Mammal` and `Reptile` specializations, and a `Zoo` collection. The demo shows the types working together.
+An in-memory animal catalogue designed around a polymorphic `Animal` base class. A `Zoo` manages a collection while `Mammal`, `Bird` and `Reptile` provide type-specific behavior.
 
-## What this module demonstrates
+## Object model
 
-Animal hierarchy and zoo collection; virtual dispatch and object-oriented design.
+```text
+Animal (shared identity and age)
+   ├─ Mammal  → legs and domestication
+   ├─ Bird    → flight and wingspan
+   └─ Reptile → venom and body length
 
-## Build and inspect
+Zoo → add, find, inspect and remove animals
+```
 
-From this directory, use a C++23-capable compiler and Make on Linux or WSL:
+The base class defines virtual sound, type and diet behavior. Each concrete animal overrides those operations, so the zoo can work through the common interface. The collection supports lookup by name and indexed access.
+
+## What to inspect
+
+- `Animal.hpp` defines the public contract and shared state.
+- `Mammal.hpp`, `Bird.hpp` and `Reptile.hpp` show specialized fields and overridden behavior.
+- `Zoo.cpp` contains collection management, growth and removal.
+- `main.cpp` shows a working catalogue; `test.cpp` covers behavior and object relationships.
+
+The interesting design question is how derived objects are stored and accessed through the base type. Follow `Zoo::addAnimal`, `findAnimal` and destruction to understand the ownership path.
+
+## Build and run
+
+With Make and a C++23-capable compiler:
 
 ```bash
 make demo
@@ -16,18 +34,6 @@ make demo
 make test
 ```
 
-`make demo` builds the example; `./demo` runs it; `make test` runs the included doctest-based checks. Start with `main.cpp` for usage, the matching headers for the public API, and `test.cpp` / `StudentTest.cpp` for examples and expected behavior. The included `doctest.h` is third-party test support.
+This is a domain model and terminal demo; it has no GUI, database or animal-care scheduling system.
 
-This is a self-contained learning module within the [C++ portfolio](../README.md), not a deployed service.
-
-## Component walkthrough
-
-`Animal` defines common identity and virtual sound, type and diet behavior. `Bird`, `Mammal` and `Reptile` provide specialized data and overrides. `Zoo` stores animals, supports lookup and removal, and can print descriptions or invoke sounds across the collection.
-
-## Design decisions to inspect
-
-The point of the hierarchy is runtime dispatch through the base type. Inspect `Zoo::addAnimal` and copy operations to understand how concrete animal types are retained; the base class is abstract and cannot be instantiated directly.
-
-## Repository tour
-
-`main.cpp` is the executable example. The matching headers describe callable methods and data contracts; `.cpp` files contain out-of-line implementations where used. `test.cpp` and `StudentTest.cpp` are the available behavioral checks. Use `make demo` followed by `./demo` for the demonstration, `make test` for checks and `make clean` to remove generated build output. The folder is independent of the other ten modules, so build it from its own directory.
+[Back to the C++ portfolio](../README.md).

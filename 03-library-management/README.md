@@ -1,14 +1,31 @@
-# Library Management
+# Library Management Model
 
-A book and library-card model using separate `Book` and `LibraryCard` classes. The demo explores borrowing-related state and comparison helpers rather than a database-backed library service.
+A C++23 model of books and borrowing cards. It keeps author and book information separate from the card that tracks borrowed items, so the rules for lending state can be read in one place.
 
-## What this module demonstrates
+## Core objects
 
-Books, card state and comparison helpers; encapsulation and domain rules.
+- `Author` is a value associated with a `Book`.
+- `Book` keeps a title, author, ISBN, page count and availability state. It exposes comparison helpers and category information.
+- `LibraryCard` associates a member with a resizable borrowed-book collection. It supports borrowing, returning, searching, clearing and totaling pages.
 
-## Build and inspect
+```text
+Author → Book → LibraryCard's borrowed collection
+```
 
-From this directory, use a C++23-capable compiler and Make on Linux or WSL:
+The model works entirely in memory. Copying is important because a card owns its collection; two cards should not share one raw allocation after a copy.
+
+## Where to read
+
+| File | Focus |
+| --- | --- |
+| `Book.hpp`, `Book.cpp` | Book metadata, availability and comparisons |
+| `LibraryCard.hpp`, `LibraryCard.cpp` | Member state and borrow/return operations |
+| `main.cpp` | Example lending workflow |
+| `test.cpp` | Behavior and copy-related checks |
+
+## Build and run
+
+With a C++23-capable compiler and Make:
 
 ```bash
 make demo
@@ -16,18 +33,6 @@ make demo
 make test
 ```
 
-`make demo` builds the example; `./demo` runs it; `make test` runs the included doctest-based checks. Start with `main.cpp` for usage, the matching headers for the public API, and `test.cpp` / `StudentTest.cpp` for examples and expected behavior. The included `doctest.h` is third-party test support.
+The module demonstrates domain rules and ownership. It does not include a catalogue server, database or persistent circulation history.
 
-This is a self-contained learning module within the [C++ portfolio](../README.md), not a deployed service.
-
-## Component walkthrough
-
-`Book` holds a title, ISBN, page count and an `Author` value. `LibraryCard` maintains a member identity and resizable borrowed-book collection. Its API can borrow, return by index or title, search, clear and total borrowed pages.
-
-## Design decisions to inspect
-
-Availability and borrowing are represented in memory. Read the copy constructor and assignment operator to see how card-owned storage is handled; then check the demo for ordinary borrow/return flow. This is a model, not a library database or circulation service.
-
-## Repository tour
-
-`main.cpp` is the executable example. The matching headers describe callable methods and data contracts; `.cpp` files contain out-of-line implementations where used. `test.cpp` and `StudentTest.cpp` are the available behavioral checks. Use `make demo` followed by `./demo` for the demonstration, `make test` for checks and `make clean` to remove generated build output. The folder is independent of the other ten modules, so build it from its own directory.
+[Back to the C++ portfolio](../README.md).

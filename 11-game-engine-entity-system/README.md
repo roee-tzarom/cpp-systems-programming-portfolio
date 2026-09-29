@@ -1,14 +1,35 @@
 # Game Entity System
 
-An ownership-focused exercise with `Entity`, `Scene`, `Resource` and `SmartStack`. The code explores object lifetime, smart pointers, weak references and move semantics in a small scene/entity model.
+An ownership-focused C++23 model for entities, scenes and resources. It explores what happens when objects are created, transferred, shared, observed and destroyed, without requiring a graphics engine.
 
-## What this module demonstrates
+## Ownership model
 
-RAII, smart pointers, scene composition and resource lifetime.
+```text
+Scene
+  ├─ unique_ptr<Entity>  → exclusive entity ownership
+  ├─ shared_ptr<Resource> → shared resource lifetime
+  └─ weak_ptr<Resource>   → observation without extending lifetime
+```
 
-## Build and inspect
+`Entity` is move-only and carries identity, position, health and an inventory. `Scene` manages entities and resources. `Resource` tracks loading and shared creation. `SmartStack<T>` implements a linked stack whose nodes are owned through `unique_ptr`.
 
-From this directory, use a C++23-capable compiler and Make on Linux or WSL:
+The distinction between shared and weak ownership is central: a weak observer can discover that a resource has expired without keeping it alive. Removing an entity also makes ownership transfer explicit.
+
+## Explore the code
+
+| File | Focus |
+| --- | --- |
+| `Entity.hpp`, `Entity.cpp` | Move-only state, health and inventory |
+| `Scene.hpp`, `Scene.cpp` | Entity and resource relationships |
+| `Resource.hpp`, `Resource.cpp` | Shared resource state |
+| `SmartStack.hpp` | Linked ownership through smart pointers |
+| `main.cpp`, `test.cpp` | Example flow and checks |
+
+Start at `main.cpp`, then follow the `Scene` methods that add and remove entities. Inspect a resource's strong and weak references to understand when it can be destroyed.
+
+## Build and run
+
+With Make and a C++23-capable compiler:
 
 ```bash
 make demo
@@ -16,18 +37,6 @@ make demo
 make test
 ```
 
-`make demo` builds the example; `./demo` runs it; `make test` runs the included doctest-based checks. Start with `main.cpp` for usage, the matching headers for the public API, and `test.cpp` / `StudentTest.cpp` for examples and expected behavior. The included `doctest.h` is third-party test support.
+This module models lifetimes and state. It does not render graphics, process player input or implement a full game loop.
 
-This is a self-contained learning module within the [C++ portfolio](../README.md), not a deployed service.
-
-## Component walkthrough
-
-`Scene` owns entities with `unique_ptr`, shares resources with `shared_ptr` and observes resources with `weak_ptr`. `Entity` is move-only and carries position, health and inventory. `Resource` exposes load state and shared creation. `SmartStack<T>` uses a linked chain of `unique_ptr` nodes.
-
-## Design decisions to inspect
-
-The ownership graph is the central lesson: removing an entity transfers unique ownership, while a weak observer can detect when a shared resource is gone without keeping it alive. These types model scene state and lifetime; they do not render graphics or run a complete game loop.
-
-## Repository tour
-
-`main.cpp` is the executable example. The matching headers describe callable methods and data contracts; `.cpp` files contain out-of-line implementations where used. `test.cpp` and `StudentTest.cpp` are the available behavioral checks. Use `make demo` followed by `./demo` for the demonstration, `make test` for checks and `make clean` to remove generated build output. The folder is independent of the other ten modules, so build it from its own directory.
+[Back to the C++ portfolio](../README.md).

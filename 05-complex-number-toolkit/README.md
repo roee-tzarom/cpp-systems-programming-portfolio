@@ -1,14 +1,31 @@
 # Complex Number Toolkit
 
-A numerical exercise with `Complex` and `ComplexArray` classes. It covers arithmetic-style operations, array ownership and copy behavior using a small demonstration program.
+A C++23 numerical model with a `Complex` value type and a dynamically sized `ComplexArray`. It combines familiar arithmetic with the less visible problem of owning and copying a collection correctly.
 
-## What this module demonstrates
+## Capabilities
 
-Complex arithmetic and arrays; value semantics and copy behavior.
+`Complex` stores real and imaginary components, exposes magnitude and supports arithmetic-style operations and comparisons. `ComplexArray` holds multiple values, grows as needed and supports insertion, removal, search and indexed access.
 
-## Build and inspect
+```text
+Complex values → arithmetic and magnitude
+       ↓
+ComplexArray → owned storage, growth, search and copies
+```
 
-From this directory, use a C++23-capable compiler and Make on Linux or WSL:
+Both types expose counters that make object and collection lifetimes observable in the demo. The array's copying operations are especially useful to inspect: two arrays should own independent storage after a copy.
+
+## Source map
+
+| File | Focus |
+| --- | --- |
+| `Complex.hpp`, `Complex.cpp` | Numeric value behavior |
+| `ComplexArray.hpp`, `ComplexArray.cpp` | Resizable ownership and collection operations |
+| `main.cpp` | Demonstration of values and arrays |
+| `test.cpp` | Arithmetic, indexing and copy checks |
+
+## Build and run
+
+From this directory with Make and a C++23-capable compiler:
 
 ```bash
 make demo
@@ -16,18 +33,6 @@ make demo
 make test
 ```
 
-`make demo` builds the example; `./demo` runs it; `make test` runs the included doctest-based checks. Start with `main.cpp` for usage, the matching headers for the public API, and `test.cpp` / `StudentTest.cpp` for examples and expected behavior. The included `doctest.h` is third-party test support.
+This is an in-memory numerical component. It does not implement arbitrary-precision complex arithmetic or external data formats.
 
-This is a self-contained learning module within the [C++ portfolio](../README.md), not a deployed service.
-
-## Component walkthrough
-
-`Complex` implements rectangular complex values, magnitude, conjugate, arithmetic and explicit conversions. `ComplexArray` owns a dynamic sequence with add/remove, search, sum, average and maximum operations.
-
-## Design decisions to inspect
-
-This module connects numerical operators to container ownership. Its copy constructor and assignment operator are important when arrays share-looking values but must own separate storage. The demo and tests show the supported arithmetic and array semantics.
-
-## Repository tour
-
-`main.cpp` is the executable example. The matching headers describe callable methods and data contracts; `.cpp` files contain out-of-line implementations where used. `test.cpp` and `StudentTest.cpp` are the available behavioral checks. Use `make demo` followed by `./demo` for the demonstration, `make test` for checks and `make clean` to remove generated build output. The folder is independent of the other ten modules, so build it from its own directory.
+[Back to the C++ portfolio](../README.md).

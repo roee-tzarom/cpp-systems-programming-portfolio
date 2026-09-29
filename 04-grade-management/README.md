@@ -1,14 +1,29 @@
 # Grade Management
 
-A student/grade model with `Student` and `Grade` classes. The module explores recording and aggregating academic results through an object-oriented API and a terminal demo.
+A C++23 academic-record model that separates a single grade value from a student's collection of course results. It provides a concrete setting for value constraints, operator overloading and owned collection storage.
 
-## What this module demonstrates
+## Model and behavior
 
-Grade records and summaries; class invariants and operator-oriented exercises.
+`Grade` wraps a numeric score. Its API bounds values, supports arithmetic and comparison operators, converts to several representations and derives letter, passing and GPA-point information. `Student` associates `Grade` values with `Course` records and provides insertion, removal and lookup by index or course name.
 
-## Build and inspect
+```text
+Student → owned course/grade records → summaries and lookup
+              ↑
+          Grade value rules
+```
 
-From this directory, use a C++23-capable compiler and Make on Linux or WSL:
+The `Grade` and `Student` classes have different responsibilities: the former defines score behavior, while the latter manages a record set. The student collection grows dynamically, so copying behavior is part of the implementation.
+
+## Review path
+
+1. Read `Grade.hpp` for the public operators and conversion methods.
+2. Follow `Grade.cpp` to see bounds and how special cases are handled.
+3. Inspect `Student.hpp` and `Student.cpp` for collection ownership and record operations.
+4. Run `main.cpp` and inspect `test.cpp` for concrete scenarios.
+
+## Build and run
+
+From this directory:
 
 ```bash
 make demo
@@ -16,18 +31,6 @@ make demo
 make test
 ```
 
-`make demo` builds the example; `./demo` runs it; `make test` runs the included doctest-based checks. Start with `main.cpp` for usage, the matching headers for the public API, and `test.cpp` / `StudentTest.cpp` for examples and expected behavior. The included `doctest.h` is third-party test support.
+Requires Make and a C++23-capable compiler. Records live only for the process lifetime; there is no transcript file format or database.
 
-This is a self-contained learning module within the [C++ portfolio](../README.md), not a deployed service.
-
-## Component walkthrough
-
-`Grade` wraps a bounded numeric result and overloads arithmetic and comparison. `Student` associates grades with `Course` records, supports adding and removing entries and exposes indexed or course-name access.
-
-## Design decisions to inspect
-
-The two classes separate grade arithmetic from a student transcript. Inspect `Grade::bound` and the operator implementations before assuming how out-of-range inputs or division are handled. The student collection uses resizable owned storage, so copy behavior matters.
-
-## Repository tour
-
-`main.cpp` is the executable example. The matching headers describe callable methods and data contracts; `.cpp` files contain out-of-line implementations where used. `test.cpp` and `StudentTest.cpp` are the available behavioral checks. Use `make demo` followed by `./demo` for the demonstration, `make test` for checks and `make clean` to remove generated build output. The folder is independent of the other ten modules, so build it from its own directory.
+[Back to the C++ portfolio](../README.md).

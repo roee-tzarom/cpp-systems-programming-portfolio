@@ -1,14 +1,25 @@
-# Generic Containers
+# Generic Containers and Algorithms
 
-A template-focused module containing a generic `Container`, `Stack`, `Queue` and reusable operations in `Algorithms.hpp`. It demonstrates how a common type parameter supports multiple data structures and algorithms.
+A template-based C++23 collection library with a resizable `Container<T>`, stack and queue adapters, and algorithms that work over the generic container. The project makes data-structure behavior visible instead of hiding it behind a standard-library container.
 
-## What this module demonstrates
+## Components
 
-Templates, stacks, queues and generic algorithms.
+| Component | Role |
+| --- | --- |
+| `Container<T>` | Dynamic storage, indexed access, removal and iterator support |
+| `Stack<T>` | Last-in, first-out operations built on the container |
+| `Queue<T>` | First-in, first-out operations built on the container |
+| `Algorithms.hpp` | Generic search, formatting and transformation helpers |
 
-## Build and inspect
+The stack uses the end of the underlying collection as its top; the queue uses the front. Read their `pop` and `dequeue` paths to see how each policy affects the same storage abstraction. `Container<T>` exposes an iterator so values can participate in familiar iteration patterns.
 
-From this directory, use a C++23-capable compiler and Make on Linux or WSL:
+## Reading path
+
+Start with `main.cpp` to see the types in use, then inspect `Container.hpp` for capacity growth and bounds behavior. Next compare `Stack.hpp` and `Queue.hpp`. Finish with `Algorithms.hpp` to see how templates make operations reusable across element types.
+
+## Build and run
+
+From this directory:
 
 ```bash
 make demo
@@ -16,18 +27,6 @@ make demo
 make test
 ```
 
-`make demo` builds the example; `./demo` runs it; `make test` runs the included doctest-based checks. Start with `main.cpp` for usage, the matching headers for the public API, and `test.cpp` / `StudentTest.cpp` for examples and expected behavior. The included `doctest.h` is third-party test support.
+Requires Make and a C++23-capable compiler. This code emphasizes implementation and semantics; it is not presented as a performance replacement for `std::vector`, `std::stack` or `std::queue`.
 
-This is a self-contained learning module within the [C++ portfolio](../README.md), not a deployed service.
-
-## Component walkthrough
-
-`Container<T>` manages resizable storage and exposes an iterator. `Stack<T>` wraps last-in-first-out operations; `Queue<T>` wraps first-in-first-out operations. `Algorithms.hpp` adds generic print, find, count, contains and sum helpers.
-
-## Design decisions to inspect
-
-This module shows how one storage abstraction can support different interfaces. Inspect bounds and empty-container exceptions in the headers. The queue removes its front element from a sequential container, which is simple for teaching but not the constant-time queue design used in a performance-oriented implementation.
-
-## Repository tour
-
-`main.cpp` is the executable example. The matching headers describe callable methods and data contracts; `.cpp` files contain out-of-line implementations where used. `test.cpp` and `StudentTest.cpp` are the available behavioral checks. Use `make demo` followed by `./demo` for the demonstration, `make test` for checks and `make clean` to remove generated build output. The folder is independent of the other ten modules, so build it from its own directory.
+[Back to the C++ portfolio](../README.md).

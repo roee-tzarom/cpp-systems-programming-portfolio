@@ -1,14 +1,32 @@
 # Course Registration
 
-An in-memory student/course model. `CourseManager` coordinates student records, enrollment, grades and queries such as course intersections and averages; supporting files cover string and type-trait utilities.
+An in-memory C++23 model for students, courses, enrollment and grades. The core `CourseManager` API supports both ordinary updates and questions that combine information across collections.
 
-## What this module demonstrates
+## Typical workflow
 
-STL containers, enrollment queries, grades and type traits.
+```text
+add student → create course → enroll → assign grade
+                                ↓
+                     counts, averages and set queries
+```
 
-## Build and inspect
+`StudentRecord` stores student details. `CourseManager` can add or remove enrollment, list students in a course, list a student's courses, assign grades and calculate a course average. It also answers intersection and union style questions, such as which students are in both of two courses. String and type-trait utilities live in separate supporting files.
 
-From this directory, use a C++23-capable compiler and Make on Linux or WSL:
+## Code map
+
+| File | Responsibility |
+| --- | --- |
+| `CourseManager.hpp`, `CourseManager.cpp` | Registration, grades and queries |
+| `StudentRecord.hpp`, `StudentRecord.cpp` | Student data |
+| `StringUtils.hpp`, `StringUtils.cpp` | String transformations |
+| `TypeTraitsUtils.hpp` | Compile-time type utilities |
+| `main.cpp`, `test.cpp` | Usage and behavioral checks |
+
+Inspect the manager's public API first, then follow its STL collections through enrollment and set-style queries. Data is held only in memory; restarting the program clears the registrations.
+
+## Build and run
+
+From this directory with Make and a C++23-capable compiler:
 
 ```bash
 make demo
@@ -16,18 +34,6 @@ make demo
 make test
 ```
 
-`make demo` builds the example; `./demo` runs it; `make test` runs the included doctest-based checks. Start with `main.cpp` for usage, the matching headers for the public API, and `test.cpp` / `StudentTest.cpp` for examples and expected behavior. The included `doctest.h` is third-party test support.
+This is a data-model demonstration, not a deployed registration service or student-information database.
 
-This is a self-contained learning module within the [C++ portfolio](../README.md), not a deployed service.
-
-## Component walkthrough
-
-`CourseManager` maintains student records, courses, enrollments and assigned grades in memory. It answers questions such as students in both courses, students in either course, a student’s course list and a course average. `StudentRecord.hpp`, `StringUtils.hpp` and `TypeTraitsUtils.hpp` provide separate supporting exercises.
-
-## Design decisions to inspect
-
-The intersection/union queries make the choice of STL collections visible. Explore the public manager API first, then the utility files. No database or persistence layer is present, so registrations last only for the process lifetime.
-
-## Repository tour
-
-`main.cpp` is the executable example. The matching headers describe callable methods and data contracts; `.cpp` files contain out-of-line implementations where used. `test.cpp` and `StudentTest.cpp` are the available behavioral checks. Use `make demo` followed by `./demo` for the demonstration, `make test` for checks and `make clean` to remove generated build output. The folder is independent of the other ten modules, so build it from its own directory.
+[Back to the C++ portfolio](../README.md).

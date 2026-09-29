@@ -1,14 +1,22 @@
-# Physics and Math Templates
+# Physics & Math Engine
 
-A C++23 template exercise combining unit conversions, type-aware formatting, `decltype` utilities and compile-time symbolic expression types. `Derivative.hpp` defines expression templates and derivative rules for supported forms.
+A C++23 collection of compile-time and type-aware numerical components. Its most distinctive part represents symbolic expressions as C++ types and derives supported forms through template specializations rather than parsing a formula string at runtime.
 
-## What this module demonstrates
+## What is inside
 
-Template specialization, type traits, units and compile-time differentiation.
+| Header | Focus |
+| --- | --- |
+| `Derivative.hpp` | Expression types such as constants, variables, sums, products and powers, plus derivative rules |
+| `PhysicsUnits.hpp` | Unit-oriented calculations and conversions |
+| `Formatter.hpp` | Type-specific formatting through template specialization |
+| `MySwap.hpp` | Generic and specialized swap behavior |
+| `TypeInfo.hpp`, `DecltypeUtils.hpp` | Type traits and deduced result types |
+
+For the symbolic component, an expression like a sum or product is assembled from types. `Derive<...>` selects a matching derivative rule at compile time. The resulting type can then be evaluated for a numeric input or rendered as text. This illustrates how templates can encode a computation's structure.
 
 ## Build and inspect
 
-From this directory, use a C++23-capable compiler and Make on Linux or WSL:
+Use Make and a C++23-capable compiler from this directory:
 
 ```bash
 make demo
@@ -16,18 +24,8 @@ make demo
 make test
 ```
 
-`make demo` builds the example; `./demo` runs it; `make test` runs the included doctest-based checks. Start with `main.cpp` for usage, the matching headers for the public API, and `test.cpp` / `StudentTest.cpp` for examples and expected behavior. The included `doctest.h` is third-party test support.
+`main.cpp` demonstrates the components. `test.cpp` checks the supported behavior; the project includes its own `doctest.h` header. The complete source set was restored from the original repository, and the 57 included test cases passed in the verified build.
 
-This is a self-contained learning module within the [C++ portfolio](../README.md), not a deployed service.
+The symbolic rules cover the expression forms implemented in `Derivative.hpp`. This is not a general algebra parser or a numerical physics simulator.
 
-## Component walkthrough
-
-`PhysicsUnits.hpp` contains constexpr conversions and physics formulas. `Formatter.hpp` and `TypeInfo.hpp` specialize behavior for selected types. `DecltypeUtils.hpp` deduces expression result types. `Derivative.hpp` defines expression types such as constants, variables, addition, multiplication and powers with evaluation and derivative rules.
-
-## Design decisions to inspect
-
-The symbolic component builds types at compile time rather than parsing a string at runtime. Start with the demo and then inspect the derivative specializations to see which forms are supported. The formulas and expression types are teaching examples, not a numerical simulation engine.
-
-## Repository tour
-
-`main.cpp` is the executable example. The matching headers describe callable methods and data contracts; `.cpp` files contain out-of-line implementations where used. `test.cpp` and `StudentTest.cpp` are the available behavioral checks. Use `make demo` followed by `./demo` for the demonstration, `make test` for checks and `make clean` to remove generated build output. The folder is independent of the other ten modules, so build it from its own directory.
+[Back to the C++ portfolio](../README.md).

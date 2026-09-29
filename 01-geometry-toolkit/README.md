@@ -1,14 +1,34 @@
 # Geometry Toolkit
 
-A focused C++23 geometry exercise built around `Point`, `Circle` and reusable utility functions. The source separates data types (`Point.*`, `Circle.*`) from operations (`Utilities.*`), with `main.cpp` demonstrating the API.
+A small C++23 geometry library built from explicit value types and free functions. It models points and circles, then uses them in distance, containment and aggregate calculations. The compact API makes the numeric behavior easy to inspect.
 
-## What this module demonstrates
+## Capabilities
 
-Points, circles and geometry calculations; value types and small reusable functions.
+- `Point` stores two-dimensional coordinates, and `distance` measures separation between points.
+- `Circle` combines a center and radius; helpers calculate area, circumference and point containment.
+- `Utilities` can select the point closest to the origin, construct a circle and average a numeric array.
 
-## Build and inspect
+```text
+Point coordinates → distance / origin search
+        ↓
+Circle(center, radius) → area / circumference / containment
+```
 
-From this directory, use a C++23-capable compiler and Make on Linux or WSL:
+## Source layout
+
+| File | Responsibility |
+| --- | --- |
+| `Point.hpp`, `Point.cpp` | Point type and distance calculation |
+| `Circle.hpp`, `Circle.cpp` | Circle type and geometric operations |
+| `Utilities.hpp`, `Utilities.cpp` | Helpers that combine or summarize values |
+| `main.cpp` | Usage examples |
+| `test.cpp` | Boundary and numeric checks |
+
+The functions accept small value objects rather than maintaining a global geometry scene. That design keeps each calculation independently callable.
+
+## Build and verify
+
+From this directory, with a C++23-capable compiler and Make:
 
 ```bash
 make demo
@@ -16,18 +36,6 @@ make demo
 make test
 ```
 
-`make demo` builds the example; `./demo` runs it; `make test` runs the included doctest-based checks. Start with `main.cpp` for usage, the matching headers for the public API, and `test.cpp` / `StudentTest.cpp` for examples and expected behavior. The included `doctest.h` is third-party test support.
+The demo prints example results; the doctest suite checks calculations and boundary behavior. This module provides in-memory geometry operations, not graphics rendering or a spatial index.
 
-This is a self-contained learning module within the [C++ portfolio](../README.md), not a deployed service.
-
-## Component walkthrough
-
-`Point` stores coordinates; `distance` measures separation between two points. `Circle` adds a center and radius, with functions for area, circumference and point containment. `Utilities` includes closest-to-origin selection, circle construction and an average helper.
-
-## Design decisions to inspect
-
-The API uses small value types and free functions. Start with `main.cpp` to see how coordinates flow into a circle and how the result is printed. Check `test.cpp` for edge cases such as boundary points and distances.
-
-## Repository tour
-
-`main.cpp` is the executable example. The matching headers describe callable methods and data contracts; `.cpp` files contain out-of-line implementations where used. `test.cpp` and `StudentTest.cpp` are the available behavioral checks. Use `make demo` followed by `./demo` for the demonstration, `make test` for checks and `make clean` to remove generated build output. The folder is independent of the other ten modules, so build it from its own directory.
+[Back to the C++ portfolio](../README.md).
